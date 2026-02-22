@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Opening SyncVibe…</title>
+</head>
+<body>
+  <p>Opening SyncVibe…</p>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const roomId = (params.get("id") || "").trim().toUpperCase();
+
+    if (!roomId) {
+      document.body.innerHTML = "<p>Invalid room link. Missing room id.</p>";
+      throw new Error("Missing room id");
+    }
+
+    const deepLink = `syncvibe://room/${encodeURIComponent(roomId)}`;
+
+    // Try to open app
+    window.location.href = deepLink;
+
+    // Fallback (optional): Play Store / instruction screen
+    setTimeout(() => {
+      document.body.innerHTML = `
+        <p>If the app didn’t open:</p>
+        <ol>
+          <li>Install SyncVibe</li>
+          <li>Come back and tap the link again</li>
+        </ol>`;
+      // Later you can uncomment:
+      // window.location.href = "https://play.google.com/store/apps/details?id=com.watchtogether.app";
+    }, 1200);
+  </script>
+</body>
+</html>
